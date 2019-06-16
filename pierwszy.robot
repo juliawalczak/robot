@@ -45,6 +45,12 @@ Logowanie do poczty wp
   Sprawdź czy się zalogowałeś i strona zawiera słowo odebrane
   Zrób scrennshot
   Zamknij przeglądarkę
+Wyszukiwanie w google
+  Otwórz przeglądarkę i stronę google
+  Wprowadź szukane słowo
+  Uruchom Wyszukiwanie
+  Sprawdź czy wynik wyszukiwania zawiera oczekiwany rezultat
+  Zamknij przeglądarkę
 *** Keywords ***
 Moje logowanie
   [Arguments]   ${moja}
@@ -83,6 +89,15 @@ Zrób scrennshot
     Capture Page Screenshot
 Zamknij przeglądarkę
     Close All browsers
+Otwórz przeglądarkę i stronę google
+    Open browser    https://www.google.com/    Firefox
+Wprowadź szukane słowo
+    Input text    xpath=//*[@id="tsf"]/div[2]/div/div[1]/div/div[1]/input   pantera mglista
+Uruchom Wyszukiwanie
+    click Element   //*[@id="tsf"]/div[2]/div/div[3]/center/input[1]
+Sprawdź czy wynik wyszukiwania zawiera oczekiwany rezultat
+    Page Should Contain   Pantera mglista zamieszkuje tereny bagniste i górskie lasy do wysokości 2500
+
 
 
 
