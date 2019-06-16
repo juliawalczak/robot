@@ -1,4 +1,4 @@
-*** Settings ***
+ *** Settings ***
 Library   SSHLibrary
 
 *** Variables ***
@@ -14,10 +14,25 @@ My Test
 Second Test
   Moje logowanie    ${MESSAGE}
 
-SSH Test
+Connection Test
   Połączenie się z hostem
   Autoryzacja z podaniem poprawnych danych
   Sprawdzenie czy nawiązano połączenie
+  Rozłączenie
+Ping test
+  Połączenie się z hostem
+  Autoryzacja z podaniem poprawnych danych
+  Sprawdzenie czy nawiązaliśmy połączenie z Internetem
+  Rozłączenie
+Fail Internet Connection
+  Połączenie się z hostem
+  Autoryzacja z podaniem poprawnych danych
+  Sprawdzenie czy nie nawiązaliśmy połączenie z Internetem
+  Rozłączenie
+Count of procesor
+  Połączenie się z hostem
+  Autoryzacja z podaniem poprawnych danych
+  Sprawdzenie ilości procesorów
   Rozłączenie
 
 *** Keywords ***
@@ -33,9 +48,15 @@ Sprawdzenie czy nawiązano połączenie
   Should Contain    ${rc}    Linux
 Rozłączenie
   Close All Connections
-
-
-
+Sprawdzenie czy nawiązaliśmy połączenie z Internetem
+    ${ping}=     Execute Command                         ping -c1 8.8.8.8
+    Should Contain    ${ping}    1 received
+Sprawdzenie czy nie nawiązaliśmy połączenie z Internetem
+    ${ping}=     Execute Command                         ping -c1 8.8.8.9
+    Should Contain    ${ping}    0 received
+Sprawdzenie ilości procesorów
+    ${count}=     Execute Command                         cat /proc/cpuinfo |grep processor |wc -l
+    Should Be Equal As Integers    ${count}    4
 
 
 
