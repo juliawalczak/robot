@@ -1,5 +1,7 @@
  *** Settings ***
 Library   SSHLibrary
+Library   waz.py
+Library   SeleniumLibrary
 
 *** Variables ***
 ${MESSAGE}    Hej
@@ -34,7 +36,15 @@ Count of procesor
   Autoryzacja z podaniem poprawnych danych
   Sprawdzenie ilości procesorów
   Rozłączenie
-
+Sprawdzenie czy funkcja napisana w pythonie działa
+  Uruchamanie funkcji i pobieranie wyniku
+Logowanie do poczty wp
+  Otwórz stronę poczty
+  Wprowadź login
+  Wprowadź hasło
+  Sprawdź czy się zalogowałeś i strona zawiera słowo odebrane
+  Zrób scrennshot
+  Zamknij przeglądarkę
 *** Keywords ***
 Moje logowanie
   [Arguments]   ${moja}
@@ -57,6 +67,22 @@ Sprawdzenie czy nie nawiązaliśmy połączenie z Internetem
 Sprawdzenie ilości procesorów
     ${count}=     Execute Command                         cat /proc/cpuinfo |grep processor |wc -l
     Should Be Equal As Integers    ${count}    4
+Uruchamanie funkcji i pobieranie wyniku
+    ${funkcja}=     Hello
+    Should Be Equal   ${funkcja}    Hello World
+Otwórz stronę poczty
+    Open browser    https://profil.wp.pl/login.html?zaloguj=poczta    Firefox
+Wprowadź login
+    Input Text   id=login   testerwsb_t1
+Wprowadź hasło
+    Input Text    id=password   adam1234
+    Click Button    id=btnSubmit
+Sprawdź czy się zalogowałeś i strona zawiera słowo odebrane
+    Page Should Contain Element   xpath=//*[@id="folder-1"]/div[2]
+Zrób scrennshot
+    Capture Page Screenshot
+Zamknij przeglądarkę
+    Close All browsers
 
 
 
